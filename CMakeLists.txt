@@ -1,3 +1,13 @@
+# Analogue Inc. Proprietary License v1.0.0
+#
+# This source code and all related information is the exclusive property of Analogue Inc.
+# and is protected by copyright laws and international treaties
+# Use, disclosure, copy, modification, distribution, sale, or transfer the software or any portion thereof,
+# is strictly forbidden without the express written consent of Analogue Inc.
+#
+# Copyright (C) Analogue Inc, 2023
+
+
 # To successfully include this file in your cmake structure, consider the following:
 # Optional Variables:
 #   STM32H5_CMSIS_STARTUP_FILE Specifies the startup file of STM32H5XX MCU, otherwise start-up file will be automatically chosen based on part number
@@ -60,55 +70,60 @@ if(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm")
  
   target_include_directories(stm32h5-cmsis SYSTEM
     PUBLIC
-    ${STM32H5_CMSIS_BASE}/Include
+      ${STM32H5_CMSIS_BASE}/Include
   )
  
   target_link_libraries(stm32h5-cmsis
     PUBLIC
-    cmsis
-    stm32h5xx-hal
+      cmsis
+      stm32h5xx-hal
   )
  
   target_compile_options(stm32h5-cmsis
     PUBLIC
-    -DSTM32H5 -D${STM32H5_CMSIS_MCU_TYPE_UPPER}xx
+      -DSTM32H5
+      -D${STM32H5_CMSIS_MCU_TYPE_UPPER}xx
   )
  
-  target_compile_definitions(stm32h5-cmsis INTERFACE
-    STM32H573xx
+  target_compile_definitions(stm32h5-cmsis
+    INTERFACE
+      STM32H573xx
   )
  
-  target_compile_definitions(stm32h5-cmsis INTERFACE
-    USE_HAL_DRIVER
+  target_compile_definitions(stm32h5-cmsis
+    INTERFACE
+      USE_HAL_DRIVER
   )
  
 else()
  
-  add_library(stm32h5-cmsis INTERFACE
-  )
+  add_library(stm32h5-cmsis INTERFACE)
  
   target_include_directories(stm32h5-cmsis SYSTEM
     INTERFACE
-    ${STM32H5_CMSIS_BASE}/Include
+      ${STM32H5_CMSIS_BASE}/Include
   )
  
   target_link_libraries(stm32h5-cmsis
     INTERFACE
-    cmsis
-    stm32h5xx-hal
+      cmsis
+      stm32h5xx-hal
   )
  
   target_compile_options(stm32h5-cmsis
     INTERFACE
-    -DSTM32H5 -D${STM32H5_CMSIS_MCU_TYPE_UPPER}xx
+      -DSTM32H5
+      -D${STM32H5_CMSIS_MCU_TYPE_UPPER}xx
   )
  
-  target_compile_definitions(stm32h5-cmsis INTERFACE
-    STM32H573xx
+  target_compile_definitions(stm32h5-cmsis
+    INTERFACE
+      STM32H573xx
   )
  
-  target_compile_definitions(stm32h5-cmsis INTERFACE
-    USE_HAL_DRIVER
+  target_compile_definitions(stm32h5-cmsis
+    INTERFACE
+      USE_HAL_DRIVER
   )
  
 endif()
@@ -117,9 +132,9 @@ endif()
 include(Doxygen)
 
 if(STM32H5_CMSIS_DOXYGEN_OUTPUT_DIRECTORY)
-    set(DOXYGEN_OUTPUT_DIRECTORY ${STM32H5_CMSIS_DOXYGEN_OUTPUT_DIRECTORY})
-  else()
-    set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
-  endif()
+  set(DOXYGEN_OUTPUT_DIRECTORY ${STM32H5_CMSIS_DOXYGEN_OUTPUT_DIRECTORY})
+else()
+  set(DOXYGEN_OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/doxygen")
+endif()
 
-add_doxygen_target(TARGET stm32h5-cmsis PROJECT_NAME "STM32H5-CMSIS" OUTPUT_DIRECTORY ${DOXYGEN_OUTPUT_DIRECTORY} SOURCES ${STM32H5_CMSIS_SOURCES})
+add_doxygen_target(TARGET stm32h5-cmsis ${PROJECT_NAME} "STM32H5-CMSIS" OUTPUT_DIRECTORY ${DOXYGEN_OUTPUT_DIRECTORY} SOURCES ${STM32H5_CMSIS_SOURCES})
